@@ -114,7 +114,7 @@
             <p class="text-slate-600 mb-8 max-w-lg mx-auto leading-relaxed">
                 เข้าสู่ระบบบริการข้อมูลสารสนเทศการจัดการเรียนการสอน งานบริหารทั่วไป และระบบปฏิบัติงานภายในสำหรับคณะครู
             </p>
-            <a href="https://script.google.com/macros/s/AKfycbyZyNuZ51nkZeb3uy8_JxdCy7Z06Qsf0f5Uk6G16csb_kNc7AQzVgpU22cqLn5WrKpMHA/exec" 
+            <a href="https://script.google.com/macros/s/AKfycbyHnIN7YJGJ414TjZUBJ_5hhSfPyyJSnY8zcbbvE1qMdU1fvp6n-UJEo2avY5iF2gq8oA/exec" 
                target="_blank" 
                class="inline-flex items-center justify-center bg-dkbOrange hover:bg-dkbOrangeHover text-white text-lg font-semibold px-8 py-4 rounded-xl shadow-lg hover:shadow-xl transition transform hover:-translate-y-0.5 w-full sm:w-auto">
                 <i class="fa-solid fa-right-to-bracket mr-3 text-xl"></i>
@@ -200,71 +200,81 @@
         });
 
         function fetchCalendarData() {
-            fetch(`${WEB_APP_URL}?action=getTasks`)
-                .then(response => {
-                    if (!response.ok) throw new Error("Network response was not ok");
-                    return response.json();
-                })
-                .then(data => {
-                    document.getElementById('calendar-loading').classList.add('hidden');
-                    document.getElementById('calendar-display').classList.remove('hidden');
+    fetch(`${WEB_APP_URL}?action=getTasks`)
+        .then(response => {
+            if (!response.ok) throw new Error("Network response was not ok");
+            return response.json();
+        })
+        .then(data => {
+            document.getElementById('calendar-loading').classList.add('hidden');
+            document.getElementById('calendar-display').classList.remove('hidden');
 
-                    const taskList = Array.isArray(data) ? data : [];
-                    const events = taskList.map(task => {
-                        let color = '#3b82f6';
-                        if (task.priority === 'high') color = '#ef4444';
-                        if (task.priority === 'low') color = '#10b981';
+            // รองรับทั้งแบบ Array และกรณีข้อมูลถูกส่งมาเป็น String
+            let taskList = [];
+            if (Array.isArray(data)) {
+                taskList = data;
+            } else if (typeof data === 'string') {
+                try { taskList = JSON.parse(data); } catch(e) { taskList = []; }
+            }
 
-                        return {
-                            id: task.id || '',
-                            title: task.title || 'กิจกรรม',
-                            start: task.date || new Date().toISOString().split('T')[0],
-                            backgroundColor: color,
-                            extendedProps: {
-                                description: task.description || '',
-                                responsible: task.responsible || ''
-                            }
-                        };
-                    });
+            const events = taskList.map(task => {
+                let color = '#3b82f6'; // สีฟ้า (งานทั่วไป)
+                if (task.priority === 'high') color = '#ef4444'; // สีแดง (งานใหญ่)
+                if (task.priority === 'low') color = '#10b981';  // สีเขียว
 
-                    renderCalendar(events);
-                })
-                .catch(err => {
-                    console.error("Error fetching tasks:", err);
-                    document.getElementById('calendar-loading').innerHTML = `
-                        <div class="text-slate-600">
-                            <p class="text-red-500 font-medium mb-2"><i class="fa-solid fa-triangle-exclamation mr-1"></i> ไม่สามารถดึงข้อมูลปฏิทินกิจกรรมได้</p>
-                            <p class="text-xs text-slate-400">กรุณาตรวจสอบว่าฝั่ง Google Apps Script ได้เขียนส่ง JSON ใน doGet และตั้งค่าการปรับใช้ (Deploy) เป็น "Everyone" (ทุกคน) แล้วหรือยัง</p>
-                        </div>
-                    `;
-                });
-        }
-
-        function renderCalendar(events) {
-            const calendarEl = document.getElementById('calendar-display');
-            const calendar = new FullCalendar.Calendar(calendarEl, {
-                initialView: 'dayGridMonth',
-                headerToolbar: {
-                    left: 'prev,next today',
-                    center: 'title',
-                    right: 'dayGridMonth,listMonth'
-                },
-                buttonText: {
-                    today: 'วันนี้',
-                    month: 'เดือน',
-                    list: 'รายการ'
-                },
-                events: events,
-                eventClick: function(info) {
-                    const props = info.event.extendedProps;
-                    let msg = `📌 กิจกรรม: ${info.event.title}\n📅 วันที่: ${info.event.startStr}`;
-                    if (props.responsible) msg += `\n👤 ผู้รับผิดชอบ: ${props.responsible}`;
-                    if (props.description) msg += `\n📝 รายละเอียด: ${props.description}`;
-                    alert(msg);
-                }
+                return {
+                    id: task.id || '',
+                    title: task.title || 'กิจกรรม',
+                    start: task.date || new Date().toISOString().split('T')[0],
+                    backgroundColor: color,
+                    extendedProps: {
+                        description: task.description || '',
+                        responsible: task.responsible || '',
+                        time: task.time || 'ทั้งวัน'
+                    }
+                };
             });
-            calendar.render();
+
+            renderCalendar(events);
+        })
+        .catch(err => {
+            console.error("Error fetching tasks:", err);
+            document.getElementById('calendar-loading').innerHTML = `
+                <div class="text-slate-600 text-center py-6">
+                    <p class="text-red-500 font-medium mb-2"><i class="fa-solid fa-triangle-exclamation mr-1"></i> ไม่สามารถดึงข้อมูลปฏิทินกิจกรรมได้</p>
+                    <p class="text-xs text-slate-400">กรุณาตรวจสอบการตั้งค่าการปรับใช้ (Deploy) ว่ากำหนดผู้มีสิทธิ์เข้าถึงเป็น "ทุกคน (Anyone)" แล้วหรือยัง</p>
+                </div>
+            `;
+        });
+}
+
+function renderCalendar(events) {
+    const calendarEl = document.getElementById('calendar-display');
+    const calendar = new FullCalendar.Calendar(calendarEl, {
+        initialView: 'dayGridMonth',
+        headerToolbar: {
+            left: 'prev,next today',
+            center: 'title',
+            right: 'dayGridMonth,listMonth'
+        },
+        buttonText: {
+            today: 'วันนี้',
+            month: 'เดือน',
+            list: 'รายการ'
+        },
+        events: events,
+        editable: false, // ปิดการลาก/แก้ไขกิจกรรม (Read-Only)
+        selectable: false, // ปิดการเลือกวัน
+        eventClick: function(info) {
+            const props = info.event.extendedProps;
+            let msg = `📌 กิจกรรม: ${info.event.title}\n📅 วันที่: ${info.event.startStr}\n⏰ เวลา: ${props.time}`;
+            if (props.responsible) msg += `\n👤 ผู้รับผิดชอบ: ${props.responsible}`;
+            if (props.description) msg += `\n📝 รายละเอียด: ${props.description}`;
+            alert(msg);
         }
+    });
+    calendar.render();
+}
     </script>
 </body>
 </html>

@@ -32,7 +32,6 @@
     </script>
     <style>
         body { font-family: 'Prompt', sans-serif; }
-        /* ตกแต่ง FullCalendar ให้เข้ากับสไตล์เว็บ */
         .fc { font-family: 'Prompt', sans-serif; }
         .fc-toolbar-title { font-size: 1.25rem !important; font-weight: 700; color: #6b21a8; }
         .fc-button-primary { background-color: #6b21a8 !important; border-color: #6b21a8 !important; }
@@ -64,7 +63,7 @@
                 <a href="#calendar" class="hover:text-dkbOrange transition">ปฏิทินกิจกรรม</a>
                 <a href="#contact" class="hover:text-dkbOrange transition">ติดต่อเรา</a>
                 
-                <!-- ปุ่มเข้าสู่ระบบสารสนเทศ (เปิด Modal ซ่อน) -->
+                <!-- ปุ่มเปิด Modal ระบบสารสนเทศ -->
                 <button onclick="toggleSystemModal()" class="bg-purple-100 hover:bg-purple-200 text-dkbPurple font-semibold px-4 py-2 rounded-lg text-sm transition flex items-center border border-purple-200">
                     <i class="fa-solid fa-user-lock mr-2 text-dkbOrange"></i> ระบบสารสนเทศ
                 </button>
@@ -106,20 +105,19 @@
         </div>
     </section>
 
-    <!-- Section: ข่าวประชาสัมพันธ์ (News Section) -->
+    <!-- Section: ข่าวประชาสัมพันธ์ -->
     <section id="news" class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
         <div class="flex flex-col sm:flex-row justify-between items-center mb-10 gap-4 border-b border-slate-200 pb-4">
             <div>
                 <h2 class="text-3xl font-bold text-dkbPurple">ข่าวประชาสัมพันธ์</h2>
                 <p class="text-slate-600 mt-1">ติดตามข่าวสาร กิจกรรม และประกาศล่าสุดจากโรงเรียนวัดดอนกระเบื้อง</p>
             </div>
-            <!-- ปุ่มเปิดฟอร์มโพสต์ข่าว -->
             <button onclick="toggleAddNewsForm()" class="bg-dkbOrange hover:bg-dkbOrangeHover text-white font-semibold px-5 py-2.5 rounded-xl shadow transition flex items-center text-sm">
                 <i class="fa-solid fa-plus-circle mr-2 text-base"></i> เพิ่มข่าวประชาสัมพันธ์
             </button>
         </div>
 
-        <!-- ฟอร์มเพิ่มข่าวประชาสัมพันธ์ (ซ่อนไว้เป็นค่าเริ่มต้น) -->
+        <!-- ฟอร์มเพิ่มข่าวประชาสัมพันธ์ -->
         <div id="add-news-form" class="hidden mb-12 bg-white p-6 sm:p-8 rounded-3xl shadow-lg border border-purple-100 transition-all">
             <div class="flex justify-between items-center mb-6">
                 <h3 class="text-xl font-bold text-dkbPurple flex items-center">
@@ -140,7 +138,6 @@
                     <label class="block text-sm font-semibold text-slate-700 mb-1">อัปโหลดรูปภาพประกอบข่าว</label>
                     <input type="file" id="newsImage" accept="image/*" onchange="previewImage(event)" class="w-full text-sm text-slate-500 file:mr-4 file:py-2 file:px-4 file:rounded-xl file:border-0 file:text-sm file:font-semibold file:bg-purple-50 file:text-dkbPurple hover:file:bg-purple-100 cursor-pointer">
                     
-                    <!-- แสดงพรีวิวรูปภาพ -->
                     <div id="imagePreviewContainer" class="mt-3 hidden">
                         <p class="text-xs text-slate-500 mb-1">ตัวอย่างรูปภาพ:</p>
                         <img id="imagePreview" class="max-h-48 rounded-xl border border-slate-200 object-cover shadow-sm">
@@ -159,18 +156,18 @@
             </form>
         </div>
 
-        <!-- รายการการ์ดแสดงข่าวสาร -->
+        <!-- รายการการ์ดข่าวสาร -->
         <div id="news-loading" class="text-center py-12 text-slate-500">
             <i class="fa-solid fa-spinner fa-spin text-3xl text-dkbPurple mb-3"></i>
             <p>กำลังโหลดข่าวประชาสัมพันธ์...</p>
         </div>
 
         <div id="news-list" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-            <!-- ข้อมูลข่าวจะถูกแสดงที่นี่ผ่าน JavaScript -->
+            <!-- ข้อมูลข่าวแสดงที่นี่ -->
         </div>
     </section>
 
-    <!-- Section: School Activity Calendar -->
+    <!-- Section: ปฏิทินกิจกรรม -->
     <section id="calendar" class="bg-slate-100/70 py-16 px-4 sm:px-6 lg:px-8">
         <div class="max-w-6xl mx-auto">
             <div class="text-center mb-10">
@@ -180,18 +177,16 @@
             </div>
 
             <div class="bg-white p-4 sm:p-8 rounded-3xl shadow-sm border border-slate-200">
-                <!-- ตัวโหลดปฏิทิน (Loading Indicator) -->
                 <div id="calendar-loading" class="text-center py-12 text-slate-500">
                     <i class="fa-solid fa-spinner fa-spin text-3xl text-dkbPurple mb-3"></i>
                     <p>กำลังโหลดข้อมูลกิจกรรมจากระบบ...</p>
                 </div>
-                <!-- กล่องปฏิทิน -->
                 <div id="calendar-display" class="hidden"></div>
             </div>
         </div>
     </section>
 
-    <!-- School Contact Section -->
+    <!-- Section: ติดต่อเรา -->
     <section id="contact" class="py-16 px-4 sm:px-6 lg:px-8 mt-auto">
         <div class="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-10 items-center">
             <div>
@@ -216,7 +211,6 @@
                 </div>
             </div>
 
-            <!-- Facebook Link Card -->
             <div class="bg-white p-6 rounded-2xl shadow-sm border border-slate-200">
                 <h3 class="text-lg font-bold text-slate-800 mb-4">ช่องทางติดตามข่าวสาร</h3>
                 <a href="https://www.facebook.com/profile.php?id=100063944083795" target="_blank" rel="noopener noreferrer" 
@@ -265,7 +259,7 @@
         </div>
     </div>
 
-    <!-- JavaScript สำหรับระบบสารสนเทศ ปฏิทิน และข่าวสาร -->
+    <!-- JavaScript -->
     <script>
         const WEB_APP_URL = "https://script.google.com/macros/s/AKfycbyZyNuZ51nkZeb3uy8_JxdCy7Z06Qsf0f5Uk6G16csb_kNc7AQzVgpU22cqLn5WrKpMHA/exec";
 
@@ -274,19 +268,16 @@
             fetchNewsData();
         });
 
-        // สลับแสดง/ซ่อน Modal เข้าสู่ระบบสารสนเทศ
         function toggleSystemModal() {
             const modal = document.getElementById('system-modal');
             modal.classList.toggle('hidden');
         }
 
-        // สลับแสดง/ซ่อน ฟอร์มเพิ่มข่าวสาร
         function toggleAddNewsForm() {
             const form = document.getElementById('add-news-form');
             form.classList.toggle('hidden');
         }
 
-        // แสดงตัวอย่างรูปภาพก่อนอัปโหลด
         function previewImage(event) {
             const container = document.getElementById('imagePreviewContainer');
             const image = document.getElementById('imagePreview');
@@ -304,7 +295,6 @@
             }
         }
 
-        // ดึงข้อมูลข่าวสารประชาสัมพันธ์
         function fetchNewsData() {
             fetch(`${WEB_APP_URL}?action=getNews`)
                 .then(res => res.json())
@@ -357,7 +347,6 @@
                 });
         }
 
-        // จัดการการส่งฟอร์มโพสต์ข่าว
         function handleNewsSubmit(event) {
             event.preventDefault();
             const submitBtn = document.getElementById('submitNewsBtn');
@@ -386,7 +375,7 @@
                     document.getElementById('newsForm').reset();
                     document.getElementById('imagePreviewContainer').classList.add('hidden');
                     toggleAddNewsForm();
-                    fetchNewsData(); // รีโหลดข่าวสารใหม่
+                    fetchNewsData();
                 })
                 .catch(err => {
                     console.error(err);
@@ -409,7 +398,6 @@
             }
         }
 
-        // ดึงข้อมูลปฏิทิน
         function fetchCalendarData() {
             fetch(`${WEB_APP_URL}?action=getTasks`)
                 .then(response => {

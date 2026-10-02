@@ -10,6 +10,9 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <!-- Google Fonts: Prompt -->
     <link href="https://fonts.googleapis.com/css2?family=Prompt:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <!-- FullCalendar CDN -->
+    <script src="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.10/index.global.min.js"></script>
+
     <script>
         tailwind.config = {
             theme: {
@@ -29,6 +32,13 @@
     </script>
     <style>
         body { font-family: 'Prompt', sans-serif; }
+        /* ตกแต่ง FullCalendar ให้เข้ากับสไตล์เว็บ */
+        .fc { font-family: 'Prompt', sans-serif; }
+        .fc-toolbar-title { font-size: 1.25rem !important; font-weight: 700; color: #6b21a8; }
+        .fc-button-primary { background-color: #6b21a8 !important; border-color: #6b21a8 !important; }
+        .fc-button-primary:hover { background-color: #f97316 !important; border-color: #f97316 !important; }
+        .fc-button-active { background-color: #f97316 !important; border-color: #f97316 !important; }
+        .fc-event { cursor: pointer; border-radius: 6px; padding: 2px 4px; border: none !important; }
     </style>
 </head>
 <body class="bg-slate-50 text-slate-800 flex flex-col min-h-screen">
@@ -88,7 +98,7 @@
         </div>
     </section>
 
-    <!-- Section: Teacher Information System (ปุ่มเดียวตามต้องการ) -->
+    <!-- Section: Teacher Information System -->
     <section id="systems" class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
         <div class="text-center mb-8">
             <h2 class="text-3xl font-bold text-dkbPurple">ระบบสารสนเทศโรงเรียน</h2>
@@ -113,7 +123,7 @@
         </div>
     </section>
 
-    <!-- Section: School Activity Calendar (ปฏิทินกิจกรรม) -->
+    <!-- Section: School Activity Calendar (ดึงข้อมูลจากระบบของคุณมาแสดง) -->
     <section id="calendar" class="bg-slate-100/70 py-16 px-4 sm:px-6 lg:px-8">
         <div class="max-w-6xl mx-auto">
             <div class="text-center mb-10">
@@ -122,17 +132,14 @@
                 <p class="text-slate-600 mt-2">ติดตามกิจกรรม วันสำคัญ และกำหนดการต่างๆ ของโรงเรียนวัดดอนกระเบื้อง</p>
             </div>
 
-            <div class="bg-white p-3 sm:p-6 rounded-3xl shadow-sm border border-slate-200">
-                <div class="w-full h-[600px] rounded-2xl overflow-hidden border border-slate-200">
-                    <!-- หมายเหตุ: สามารถนำ URL ปฏิทิน Google Calendar หรือ Web App ปฏิทินของคุณมาเปลี่ยนในช่อง src ได้เลยครับ -->
-                    <iframe src="https://calendar.google.com/calendar/embed?src=Saraban_72010090%40suphan1.go.th&ctz=Asia%2FBangkok" 
-                            style="border: 0" 
-                            width="100%" 
-                            height="100%" 
-                            frameborder="0" 
-                            scrolling="no">
-                    </iframe>
+            <div class="bg-white p-4 sm:p-8 rounded-3xl shadow-sm border border-slate-200">
+                <!-- ตัวโหลดปฏิทิน (Loading Indicator) -->
+                <div id="calendar-loading" class="text-center py-12 text-slate-500">
+                    <i class="fa-solid fa-spinner fa-spin text-3xl text-dkbPurple mb-3"></i>
+                    <p>กำลังโหลดข้อมูลกิจกรรมจากระบบ...</p>
                 </div>
+                <!-- กล่องปฏิทิน -->
+                <div id="calendar-display" class="hidden"></div>
             </div>
         </div>
     </section>
@@ -184,5 +191,75 @@
         <p>© 2026 Watdonkrabueng School. All Rights Reserved.</p>
     </footer>
 
+    <!-- JavaScript สำหรับดึงข้อมูลปฏิทินจากระบบ Web App -->
+    <script>
+        const WEB_APP_URL = "https://script.google.com/macros/s/AKfycbyZyNuZ51nkZeb3uy8_JxdCy7Z06Qsf0f5Uk6G16csb_kNc7AQzVgpU22cqLn5WrKpMHA/exec";
+
+        document.addEventListener('DOMContentLoaded', function() {
+            fetchCalendarData();
+        });
+
+        function fetchCalendarData() {
+            fetch(`${WEB_APP_URL}?action=getTasks`)
+                .then(response => response.json())
+                .then(data => {
+                    document.getElementById('calendar-loading').classList.add('hidden');
+                    document.getElementById('calendar-display').classList.remove('hidden');
+
+                    // แปลงรูปแบบกิจกรรมจากระบบ ให้ตรงกับ FullCalendar
+                    const events = data.map(task => {
+                        let color = '#3b82f6'; // สีฟ้าปกติ
+                        if (task.priority === 'high') color = '#ef4444'; // สีแดง
+                        if (task.priority === 'low') color = '#10b981'; // สีเขียว
+
+                        return {
+                            id: task.id,
+                            title: task.title,
+                            start: task.date,
+                            backgroundColor: color,
+                            extendedProps: {
+                                description: task.description || '',
+                                responsible: task.responsible || ''
+                            }
+                        };
+                    });
+
+                    renderCalendar(events);
+                })
+                .catch(err => {
+                    console.error("Error fetching tasks:", err);
+                    document.getElementById('calendar-loading').innerHTML = `
+                        <p class="text-red-500 font-medium"><i class="fa-solid fa-triangle-exclamation mr-1"></i> ไม่สามารถโหลดปฏิทินกิจกรรมได้</p>
+                    `;
+                });
+        }
+
+        function renderCalendar(events) {
+            const calendarEl = document.getElementById('calendar-display');
+            const calendar = new FullCalendar.Calendar(calendarEl, {
+                initialView: 'dayGridMonth',
+                locale: 'th',
+                headerToolbar: {
+                    left: 'prev,next today',
+                    center: 'title',
+                    right: 'dayGridMonth,listMonth'
+                },
+                buttonText: {
+                    today: 'วันนี้',
+                    month: 'เดือน',
+                    list: 'รายการ'
+                },
+                events: events,
+                eventClick: function(info) {
+                    const props = info.event.extendedProps;
+                    let msg = `📌 กิจกรรม: ${info.event.title}\n📅 วันที่: ${info.event.startStr}`;
+                    if (props.responsible) msg += `\n👤 ผู้รับผิดชอบ: ${props.responsible}`;
+                    if (props.description) msg += `\n📝 รายละเอียด: ${props.description}`;
+                    alert(msg);
+                }
+            });
+            calendar.render();
+        }
+    </script>
 </body>
 </html>

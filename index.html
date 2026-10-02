@@ -123,7 +123,7 @@
         </div>
     </section>
 
-    <!-- Section: School Activity Calendar (ดึงข้อมูลจากระบบของคุณมาแสดง) -->
+    <!-- Section: School Activity Calendar -->
     <section id="calendar" class="bg-slate-100/70 py-16 px-4 sm:px-6 lg:px-8">
         <div class="max-w-6xl mx-auto">
             <div class="text-center mb-10">
@@ -201,21 +201,24 @@
 
         function fetchCalendarData() {
             fetch(`${WEB_APP_URL}?action=getTasks`)
-                .then(response => response.json())
+                .then(response => {
+                    if (!response.ok) throw new Error("Network response was not ok");
+                    return response.json();
+                })
                 .then(data => {
                     document.getElementById('calendar-loading').classList.add('hidden');
                     document.getElementById('calendar-display').classList.remove('hidden');
 
-                    // แปลงรูปแบบกิจกรรมจากระบบ ให้ตรงกับ FullCalendar
-                    const events = data.map(task => {
-                        let color = '#3b82f6'; // สีฟ้าปกติ
-                        if (task.priority === 'high') color = '#ef4444'; // สีแดง
-                        if (task.priority === 'low') color = '#10b981'; // สีเขียว
+                    const taskList = Array.isArray(data) ? data : [];
+                    const events = taskList.map(task => {
+                        let color = '#3b82f6';
+                        if (task.priority === 'high') color = '#ef4444';
+                        if (task.priority === 'low') color = '#10b981';
 
                         return {
-                            id: task.id,
-                            title: task.title,
-                            start: task.date,
+                            id: task.id || '',
+                            title: task.title || 'กิจกรรม',
+                            start: task.date || new Date().toISOString().split('T')[0],
                             backgroundColor: color,
                             extendedProps: {
                                 description: task.description || '',
@@ -229,7 +232,10 @@
                 .catch(err => {
                     console.error("Error fetching tasks:", err);
                     document.getElementById('calendar-loading').innerHTML = `
-                        <p class="text-red-500 font-medium"><i class="fa-solid fa-triangle-exclamation mr-1"></i> ไม่สามารถโหลดปฏิทินกิจกรรมได้</p>
+                        <div class="text-slate-600">
+                            <p class="text-red-500 font-medium mb-2"><i class="fa-solid fa-triangle-exclamation mr-1"></i> ไม่สามารถดึงข้อมูลปฏิทินกิจกรรมได้</p>
+                            <p class="text-xs text-slate-400">กรุณาตรวจสอบว่าฝั่ง Google Apps Script ได้เขียนส่ง JSON ใน doGet และตั้งค่าการปรับใช้ (Deploy) เป็น "Everyone" (ทุกคน) แล้วหรือยัง</p>
+                        </div>
                     `;
                 });
         }
@@ -238,7 +244,6 @@
             const calendarEl = document.getElementById('calendar-display');
             const calendar = new FullCalendar.Calendar(calendarEl, {
                 initialView: 'dayGridMonth',
-                locale: 'th',
                 headerToolbar: {
                     left: 'prev,next today',
                     center: 'title',

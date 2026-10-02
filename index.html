@@ -51,7 +51,7 @@
             <nav class="hidden md:flex space-x-6 font-medium text-slate-700">
                 <a href="#home" class="hover:text-dkbOrange transition">หน้าแรก</a>
                 <a href="#systems" class="hover:text-dkbOrange transition">ระบบสารสนเทศ</a>
-                <a href="#about" class="hover:text-dkbOrange transition">เกี่ยวกับโรงเรียน</a>
+                <a href="#calendar" class="hover:text-dkbOrange transition">ปฏิทินกิจกรรม</a>
                 <a href="#contact" class="hover:text-dkbOrange transition">ติดต่อเรา</a>
             </nav>
 
@@ -81,101 +81,64 @@
                 <a href="#systems" class="bg-dkbOrange hover:bg-dkbOrangeHover text-white font-semibold px-6 py-3 rounded-lg shadow-lg hover:shadow-xl transition transform hover:-translate-y-0.5">
                     <i class="fa-solid fa-laptop-code mr-2"></i>เข้าสู่ระบบสารสนเทศ
                 </a>
-                <a href="#contact" class="bg-white/10 hover:bg-white/20 text-white font-semibold px-6 py-3 rounded-lg border border-white/20 backdrop-blur-sm transition">
-                    <i class="fa-solid fa-address-book mr-2"></i>ข้อมูลติดต่อ
+                <a href="#calendar" class="bg-white/10 hover:bg-white/20 text-white font-semibold px-6 py-3 rounded-lg border border-white/20 backdrop-blur-sm transition">
+                    <i class="fa-solid fa-calendar-days mr-2"></i>ดูปฏิทินกิจกรรม
                 </a>
             </div>
         </div>
     </section>
 
-    <!-- Section: Internal Information Systems (ระบบสารสนเทศที่ทำขึ้นเอง) -->
-    <section id="systems" class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
-        <div class="text-center mb-12">
+    <!-- Section: Teacher Information System (ปุ่มเดียวตามต้องการ) -->
+    <section id="systems" class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
+        <div class="text-center mb-8">
             <h2 class="text-3xl font-bold text-dkbPurple">ระบบสารสนเทศโรงเรียน</h2>
             <div class="w-16 h-1 bg-dkbOrange mx-auto mt-2 rounded-full"></div>
-            <p class="text-slate-600 mt-2">ศูนย์รวมระบบบริหารจัดการและบริการข้อมูลออนไลน์ โรงเรียนวัดดอนกระเบื้อง</p>
+            <p class="text-slate-600 mt-2">ระบบบริหารจัดการข้อมูลสารสนเทศสำหรับคณะครูและบุคลากร โรงเรียนวัดดอนกระเบื้อง</p>
         </div>
 
-        <!-- Systems Grid -->
-        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-
-            <!-- Card 1: ตัวอย่างระบบตรวจผลเรียน / เช็คชื่อ (เชื่อม Google Apps Script) -->
-            <div class="bg-white rounded-2xl shadow-sm border border-slate-100 hover:shadow-md transition overflow-hidden group">
-                <div class="p-6">
-                    <div class="w-14 h-14 bg-purple-100 text-dkbPurple rounded-xl flex items-center justify-center text-2xl mb-4 group-hover:bg-dkbPurple group-hover:text-white transition">
-                        <i class="fa-solid fa-graduation-cap"></i>
-                    </div>
-                    <h3 class="text-xl font-bold text-slate-800 mb-2">ระบบตรวจผลการเรียน</h3>
-                    <p class="text-slate-600 text-sm mb-6 leading-relaxed">
-                        ระบบบริการตรวจสอบผลการเรียนและคะแนนเก็บรายบุคคลสำหรับนักเรียนและผู้ปกครอง
-                    </p>
-                    <!-- ใส่ลิงก์ Google Apps Script / Web App ของคุณที่ช่อง href -->
-                    <a href="https://script.google.com/macros/s/AKfycbyZyNuZ51nkZeb3uy8_JxdCy7Z06Qsf0f5Uk6G16csb_kNc7AQzVgpU22cqLn5WrKpMHA/exec" target="_blank" 
-                       class="inline-flex items-center justify-center w-full bg-slate-100 group-hover:bg-dkbOrange group-hover:text-white text-slate-700 font-medium py-2.5 rounded-xl transition">
-                        <span>เข้าใช้งานระบบ</span>
-                        <i class="fa-solid fa-arrow-right-long ml-2"></i>
-                    </a>
-                </div>
+        <div class="bg-white rounded-3xl shadow-sm border border-purple-100 p-8 sm:p-10 text-center hover:shadow-md transition">
+            <div class="w-20 h-20 bg-purple-100 text-dkbPurple rounded-full flex items-center justify-center text-3xl mx-auto mb-5">
+                <i class="fa-solid fa-user-shield"></i>
             </div>
-
-            <!-- Card 2: ตัวอย่างระบบงานสารบรรณ / พัสดุ -->
-            <div class="bg-white rounded-2xl shadow-sm border border-slate-100 hover:shadow-md transition overflow-hidden group">
-                <div class="p-6">
-                    <div class="w-14 h-14 bg-orange-100 text-dkbOrange rounded-xl flex items-center justify-center text-2xl mb-4 group-hover:bg-dkbOrange group-hover:text-white transition">
-                        <i class="fa-solid fa-folder-open"></i>
-                    </div>
-                    <h3 class="text-xl font-bold text-slate-800 mb-2">ระบบสารบรรณ & เอกสาร</h3>
-                    <p class="text-slate-600 text-sm mb-6 leading-relaxed">
-                        ระบบจัดเก็บและค้นหาเอกสารหนังสือราชการภายใน สำหรับคณะครูและบุคลากร
-                    </p>
-                    <!-- ใส่ลิงก์ระบบสารสนเทศของคุณ -->
-                    <a href="#" target="_blank" 
-                       class="inline-flex items-center justify-center w-full bg-slate-100 group-hover:bg-dkbOrange group-hover:text-white text-slate-700 font-medium py-2.5 rounded-xl transition">
-                        <span>เข้าใช้งานระบบ</span>
-                        <i class="fa-solid fa-arrow-right-long ml-2"></i>
-                    </a>
-                </div>
-            </div>
-
-            <!-- Card 3: ตัวอย่างระบบเช็คชื่อมาเรียนประจำวัน -->
-            <div class="bg-white rounded-2xl shadow-sm border border-slate-100 hover:shadow-md transition overflow-hidden group">
-                <div class="p-6">
-                    <div class="w-14 h-14 bg-purple-100 text-dkbPurple rounded-xl flex items-center justify-center text-2xl mb-4 group-hover:bg-dkbPurple group-hover:text-white transition">
-                        <i class="fa-solid fa-clipboard-user"></i>
-                    </div>
-                    <h3 class="text-xl font-bold text-slate-800 mb-2">ระบบบันทึกการมาเรียน</h3>
-                    <p class="text-slate-600 text-sm mb-6 leading-relaxed">
-                        ระบบบันทึกและสถิติการมาเรียน สถิติความประพฤตินักเรียนประจำวัน
-                    </p>
-                    <!-- ใส่ลิงก์ระบบสารสนเทศของคุณ -->
-                    <a href="#" target="_blank" 
-                       class="inline-flex items-center justify-center w-full bg-slate-100 group-hover:bg-dkbOrange group-hover:text-white text-slate-700 font-medium py-2.5 rounded-xl transition">
-                        <span>เข้าใช้งานระบบ</span>
-                        <i class="fa-solid fa-arrow-right-long ml-2"></i>
-                    </a>
-                </div>
-            </div>
-
+            <h3 class="text-2xl font-bold text-slate-800 mb-3">ระบบสารสนเทศสำหรับครู</h3>
+            <p class="text-slate-600 mb-8 max-w-lg mx-auto leading-relaxed">
+                เข้าสู่ระบบบริการข้อมูลสารสนเทศการจัดการเรียนการสอน งานบริหารทั่วไป และระบบปฏิบัติงานภายในสำหรับคณะครู
+            </p>
+            <a href="https://script.google.com/macros/s/AKfycbyZyNuZ51nkZeb3uy8_JxdCy7Z06Qsf0f5Uk6G16csb_kNc7AQzVgpU22cqLn5WrKpMHA/exec" 
+               target="_blank" 
+               class="inline-flex items-center justify-center bg-dkbOrange hover:bg-dkbOrangeHover text-white text-lg font-semibold px-8 py-4 rounded-xl shadow-lg hover:shadow-xl transition transform hover:-translate-y-0.5 w-full sm:w-auto">
+                <i class="fa-solid fa-right-to-bracket mr-3 text-xl"></i>
+                <span>คลิกเข้าสู่ระบบสารสนเทศ (สำหรับครู)</span>
+            </a>
         </div>
+    </section>
 
-        <!-- Section: Iframe Embed Placeholder (กรณีต้องการดึงหน้า Web App หรือ Google Form มาแสดงในหน้าเว็บโดยตรง) -->
-        <div class="mt-12 bg-white p-6 rounded-2xl shadow-sm border border-slate-100">
-            <h3 class="text-lg font-bold text-dkbPurple mb-4 flex items-center">
-                <i class="fa-solid fa-window-maximize mr-2 text-dkbOrange"></i>
-                หน้าต่างระบบสารสนเทศแบบฝัง (Embed Frame)
-            </h3>
-            <div class="w-full h-96 bg-slate-100 rounded-xl overflow-hidden flex items-center justify-center border border-dashed border-slate-300">
-                <!-- สามารถวางโค้ด <iframe src="URL_WEB_APP"></iframe> ตรงนี้ได้ -->
-                <p class="text-slate-400 text-sm text-center px-4">
-                    <i class="fa-solid fa-code text-3xl mb-2 block"></i>
-                    วางลิงก์ Google Apps Script / Form หรือ Looker Studio Dashboard ในแท็ก &lt;iframe&gt; ตรงนี้เพื่อแสดงผลในหน้าเว็บได้ทันที
-                </p>
+    <!-- Section: School Activity Calendar (ปฏิทินกิจกรรม) -->
+    <section id="calendar" class="bg-slate-100/70 py-16 px-4 sm:px-6 lg:px-8">
+        <div class="max-w-6xl mx-auto">
+            <div class="text-center mb-10">
+                <h2 class="text-3xl font-bold text-dkbPurple">ปฏิทินกิจกรรมโรงเรียน</h2>
+                <div class="w-16 h-1 bg-dkbOrange mx-auto mt-2 rounded-full"></div>
+                <p class="text-slate-600 mt-2">ติดตามกิจกรรม วันสำคัญ และกำหนดการต่างๆ ของโรงเรียนวัดดอนกระเบื้อง</p>
+            </div>
+
+            <div class="bg-white p-3 sm:p-6 rounded-3xl shadow-sm border border-slate-200">
+                <div class="w-full h-[600px] rounded-2xl overflow-hidden border border-slate-200">
+                    <!-- หมายเหตุ: สามารถนำ URL ปฏิทิน Google Calendar หรือ Web App ปฏิทินของคุณมาเปลี่ยนในช่อง src ได้เลยครับ -->
+                    <iframe src="https://calendar.google.com/calendar/embed?src=Saraban_72010090%40suphan1.go.th&ctz=Asia%2FBangkok" 
+                            style="border: 0" 
+                            width="100%" 
+                            height="100%" 
+                            frameborder="0" 
+                            scrolling="no">
+                    </iframe>
+                </div>
             </div>
         </div>
     </section>
 
     <!-- School Contact Section -->
-    <section id="contact" class="bg-slate-100 py-16 px-4 sm:px-6 lg:px-8 mt-auto">
+    <section id="contact" class="py-16 px-4 sm:px-6 lg:px-8 mt-auto">
         <div class="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-10 items-center">
             <div>
                 <h2 class="text-2xl font-bold text-dkbPurple mb-4">โรงเรียนวัดดอนกระเบื้อง</h2>
@@ -199,11 +162,11 @@
                 </div>
             </div>
 
-            <!-- Google Map / Quick Link Card -->
+            <!-- Facebook Link Card -->
             <div class="bg-white p-6 rounded-2xl shadow-sm border border-slate-200">
-                <h3 class="text-lg font-bold text-slate-800 mb-4">ช่องทางติดตามและติดต่อสอบถาม</h3>
+                <h3 class="text-lg font-bold text-slate-800 mb-4">ช่องทางติดตามข่าวสาร</h3>
                 <a href="https://www.facebook.com/profile.php?id=100063944083795" target="_blank" rel="noopener noreferrer" 
-                   class="flex items-center p-4 bg-blue-50 hover:bg-blue-100 rounded-xl border border-blue-100 transition group mb-4">
+                   class="flex items-center p-4 bg-blue-50 hover:bg-blue-100 rounded-xl border border-blue-100 transition group">
                     <div class="w-12 h-12 bg-blue-600 text-white rounded-lg flex items-center justify-center text-2xl mr-4">
                         <i class="fa-brands fa-facebook-f"></i>
                     </div>
